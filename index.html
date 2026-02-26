@@ -17,7 +17,23 @@ canvas { display:block; }
 <canvas id="c"></canvas>
 <div id="hud">🚲 Engebeli Yolculuk</div>
 <div id="tip">← → Hareket &nbsp;|&nbsp; ↑ Hızlan &nbsp;|&nbsp; ↓ Fren</div>
+<div id="fsoverlay" style="position:fixed;inset:0;background:rgba(237,234,224,0.92);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;font-family:'Caveat',cursive;cursor:pointer;z-index:99;">
+  <div style="font-size:72px;">🚲</div>
+  <div style="font-size:34px;color:#4a3828;letter-spacing:1px;">Engebeli Yolculuk</div>
+  <div style="font-size:20px;color:#7a6858;">Tam ekran için tıkla</div>
+</div>
 <script>
+// ─── Fullscreen ───────────────────────────────────────────────────
+const fsOverlay = document.getElementById('fsoverlay');
+function goFullscreen() {
+  const el = document.documentElement;
+  (el.requestFullscreen||el.webkitRequestFullscreen||el.mozRequestFullScreen||el.msRequestFullscreen||function(){}).call(el);
+  fsOverlay.style.display = 'none';
+}
+fsOverlay.addEventListener('click', goFullscreen);
+// Also try auto-fullscreen immediately (works in some browsers)
+try { document.documentElement.requestFullscreen && document.documentElement.requestFullscreen().then(()=>{ fsOverlay.style.display='none'; }).catch(()=>{}); } catch(e){}
+
 const cv = document.getElementById('c');
 const cx = cv.getContext('2d');
 let W, H;
